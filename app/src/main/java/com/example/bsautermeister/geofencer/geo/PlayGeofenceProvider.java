@@ -35,8 +35,6 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     private Location homeLocation;
     private double radius;
 
-    //GeofenceTimedGpsFixReceiver geofenceTimedGpsFixReceiver;
-
     public PlayGeofenceProvider(Context appContext) {
         this.context = appContext;
         initGoogleApiClient();
@@ -95,7 +93,7 @@ public class PlayGeofenceProvider implements GeofenceProvider {
                 this.pendingIntent = pendingIntent;
             }
 
-            //geofenceTimedGpsFixReceiver.start(context);
+            TimedGPSFixReceiver.start(context);
         }
     }
 
@@ -171,7 +169,11 @@ public class PlayGeofenceProvider implements GeofenceProvider {
 
     @Override
     public void stop() {
+        Log.i(TAG, "Stopping Play geofencing...");
+        PendingIntent pendingIntent = getGeofencingPendingIntent(context);
+        LocationServices.GeofencingApi.removeGeofences(googleApiClient, pendingIntent);
 
+        TimedGPSFixReceiver.stop(context);
     }
 
     private static PendingIntent getGeofencingPendingIntent(final Context context) {

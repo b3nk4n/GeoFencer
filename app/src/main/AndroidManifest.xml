@@ -43,6 +43,9 @@
                 <action android:name="android.location.PROVIDERS_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <receiver
+            android:name=".geo.TimedGPSFixReceiver" />
     </application>
 
 </manifest>
