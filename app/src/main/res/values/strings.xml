@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">GeoFencer</string>
+    <string name="settings">Settings</string>
+
+    <string name="setting_provider_title">Provider</string>
+    <string name="setting_radius_title">Radius</string>
+
+    <string-array name="provider_array">
+        <item>Play</item>
+        <item>PathSense</item>
+    </string-array>
 </resources>

@@ -4,7 +4,6 @@
 
     <!-- GEO Location Integration and WIFI Scan -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Listen for the device starting up for re-registration tasks -->
@@ -25,16 +24,19 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity" />
+
         <receiver
             android:name=".geo.GeoTransitionReceiver"
             android:exported="false" />
-
         <receiver
             android:name=".geo.GeoRestartReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.BOOT_COMPLETED" /> <!-- android.intent.action.LOCKED_BOOT_COMPLETED would be triggered earlier, in case we don't need access to credential secure storage -->
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
                 <action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
