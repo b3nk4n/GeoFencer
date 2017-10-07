@@ -52,7 +52,6 @@ public class GeofenceSettings {
                     .apply();
     }
 
-    @Nullable
     public String getGeofenceProvider() {
         return prefs.getString("provider", DEFAULT_PROVIDER);
     }
@@ -67,5 +66,13 @@ public class GeofenceSettings {
 
     public void setGpsPollingEnabled(boolean polling) {
         prefs.edit().putBoolean("gps-polling", polling).apply();
+    }
+
+    public boolean isGeofencingActive() {
+        return prefs.getBoolean("active", false);
+    }
+
+    public void setGeofencingActive(boolean active) {
+        prefs.edit().putBoolean("active", active).apply();
     }
 }

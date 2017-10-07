@@ -2,22 +2,60 @@ package de.bsautermeister.geofencer;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.location.LocationServices;
 
 import de.bsautermeister.geofencer.geo.GeoLocationUtil;
+import de.bsautermeister.geofencer.geo.GeofenceProvider;
+import de.bsautermeister.geofencer.geo.GeofenceSettings;
+import de.bsautermeister.geofencer.geo.PlayGeofenceProvider;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int LOCATION_REQUEST_CODE = 0;
 
+    private GeofenceSettings settings;
+
+    private ProgressBar runningProgress;
+    private TextView runningProvider;
+
+    private FloatingActionButton startButton;
+    private FloatingActionButton stopButton;
+
+    private GeofenceProvider provider;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        settings = new GeofenceSettings(getApplicationContext());
+
+        if (settings.getGeofenceProvider().equals("Play")) {
+            provider = new PlayGeofenceProvider(getApplicationContext());
+        } else if (settings.getGeofenceProvider().equals("PathSense")){
+            // TODO
+        }
+
+        startButton = (FloatingActionButton)findViewById(R.id.startButton);
+        stopButton = (FloatingActionButton)findViewById(R.id.stopButton);
+        updateFloatingButtons();
+
+        runningProgress = (ProgressBar)findViewById(R.id.runningProgress);
+        runningProvider = (TextView)findViewById(R.id.runningProvider);
+        updateRunningProgress();
     }
 
     @Override
@@ -40,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.action_settings:
+                if (settings.isGeofencingActive()) {
+                    Toast.makeText(this, "Stop geofencing first...", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
                 Intent settingsIntent = new Intent(getApplicationContext(), SettingsActivity.class);
                 startActivity(settingsIntent);
                 break;
@@ -64,5 +107,44 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private void updateFloatingButtons() {
+        startButton.setVisibility(settings.isGeofencingActive() ? View.GONE : View.VISIBLE);
+        stopButton.setVisibility(settings.isGeofencingActive() ? View.VISIBLE : View.GONE);
+    }
+
+    private void updateRunningProgress() {
+        String name = settings.getGeofenceProvider();
+        if (settings.isGeofencingActive()) {
+            runningProgress.setVisibility(View.VISIBLE);
+            runningProvider.setText(name);
+        } else {
+            runningProgress.setVisibility(View.INVISIBLE);
+            runningProvider.setText("");
+        }
+    }
+
+    public void startClicked(View view) {
+        Location home = settings.getHomeLocation();
+        float radius = settings.getRadius();
+        boolean usePolling = settings.isGpsPollingEnabled();
+
+        if (home == null) {
+            Toast.makeText(this, "Set a home in settings first...", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        provider.start(home, radius, usePolling);
+        settings.setGeofencingActive(true);
+        updateFloatingButtons();
+        updateRunningProgress();
+    }
+
+    public void stopClicked(View view) {
+        provider.stop();
+        settings.setGeofencingActive(false);
+        updateFloatingButtons();
+        updateRunningProgress();
     }
 }

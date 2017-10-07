@@ -83,7 +83,6 @@ public class PlayGeofenceProvider implements GeofenceProvider {
 
         if (GeoLocationUtil.hasGpsPermissions(context)) {
             PendingIntent pendingIntent = getGeofencingPendingIntent(context);
-            Log.i(TAG, "Starting Play geofencing...");
 
             if (googleApiClient.isConnected()) {
                 startInternal(homeLocation, pendingIntent);
@@ -103,8 +102,9 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     // (https://developer.android.com/training/location/geofencing.html #Re-register geofences only when required)
     private  void startInternal(final Location homeLocation, PendingIntent pendingIntent) {
         GeofencingRequest geofenceRequest = createGeofenceRequest(homeLocation);
-
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Log.i(TAG, "Starting Play geofencing...");
+
             LocationServices.GeofencingApi.addGeofences(
                     googleApiClient,
                     geofenceRequest,
