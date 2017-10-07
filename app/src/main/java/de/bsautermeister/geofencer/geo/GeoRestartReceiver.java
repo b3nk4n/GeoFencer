@@ -18,6 +18,9 @@ public class GeoRestartReceiver extends BroadcastReceiver {
 
         GeofenceSettings settings = new GeofenceSettings(context);
 
+        if (!settings.isGeofencingActive())
+            return;
+
         Location homeLocation = settings.getHomeLocation();
         double radius = settings.getRadius();
         String activeGeofenceProvider = settings.getGeofenceProvider();
