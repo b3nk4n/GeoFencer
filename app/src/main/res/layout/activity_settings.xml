@@ -11,7 +11,6 @@
         android:id="@+id/providerLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="16dp"
         android:text="@string/setting_provider_title"
         android:textStyle="bold"
@@ -27,7 +26,7 @@
         android:layout_marginLeft="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/providerLabel"
+        app:layout_constraintTop_toBottomOf="@+id/providerLabel"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
@@ -35,12 +34,11 @@
         android:id="@+id/radiusLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/setting_radius_title"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/providerSpinner"
+        app:layout_constraintTop_toBottomOf="@+id/providerSpinner"
         android:layout_marginStart="8dp" />
 
     <SeekBar
@@ -52,7 +50,7 @@
         android:layout_marginRight="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radiusLabel"
+        app:layout_constraintTop_toBottomOf="@+id/radiusLabel"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
@@ -62,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radiusSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/radiusSeekBar"
         android:layout_marginEnd="8dp" />
 
     <TextView
@@ -73,7 +71,7 @@
         android:text="@string/setting_home_location_title"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radiusText" />
+        app:layout_constraintTop_toBottomOf="@+id/radiusText" />
 
     <EditText
         android:id="@+id/latitudeText"
@@ -82,7 +80,7 @@
         android:hint="@string/setting_home_location_hint_lat"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/homeLabel"/>
+        app:layout_constraintTop_toBottomOf="@+id/homeLabel"/>
 
     <EditText
         android:id="@+id/longitudeText"
@@ -91,7 +89,7 @@
         android:hint="@string/setting_home_location_hint_lng"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/latitudeText"/>
+        app:layout_constraintTop_toBottomOf="@+id/latitudeText"/>
 
     <Button
         android:id="@+id/loadPositionButton"
@@ -100,15 +98,35 @@
         android:onClick="loadCurrentPositionClicked"
         android:text="@string/setting_home_location_button"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/longitudeText" />
+        app:layout_constraintTop_toBottomOf="@+id/longitudeText" />
 
     <Button
+        android:id="@+id/showPositionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="showCurrentPositionClicked"
         android:text="@string/setting_home_show_button"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loadPositionButton" />
+        app:layout_constraintTop_toBottomOf="@+id/loadPositionButton" />
+
+    <TextView
+        android:id="@+id/pollingLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_polling_title"
+        android:textStyle="bold"
+        android:layout_marginTop="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/showPositionButton"
+        android:layout_marginEnd="8dp" />
+
+    <CheckBox
+        android:id="@+id/pollingCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pollingLabel"
+        android:text="@string/setting_polling_enabled" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"

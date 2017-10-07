@@ -60,4 +60,12 @@ public class GeofenceSettings {
     public void setGeofenceProvider(String provider) {
         prefs.edit().putString("provider", provider).apply();
     }
+
+    public boolean isGpsPollingEnabled() {
+        return prefs.getBoolean("gps-polling", false);
+    }
+
+    public void setGpsPollingEnabled(boolean polling) {
+        prefs.edit().putBoolean("gps-polling", polling).apply();
+    }
 }

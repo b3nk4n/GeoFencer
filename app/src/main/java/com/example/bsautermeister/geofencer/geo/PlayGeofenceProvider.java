@@ -77,7 +77,7 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     };
 
     @Override
-    public void start(Location homeLocation, double radius) {
+    public void start(Location homeLocation, double radius, boolean usePolling) {
         this.homeLocation = homeLocation;
         this.radius = radius;
 
@@ -93,7 +93,8 @@ public class PlayGeofenceProvider implements GeofenceProvider {
                 this.pendingIntent = pendingIntent;
             }
 
-            TimedGPSFixReceiver.start(context);
+            if (usePolling)
+                TimedGPSFixReceiver.start(context);
         }
     }
 

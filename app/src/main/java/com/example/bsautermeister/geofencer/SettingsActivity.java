@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -30,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     private TextView radiusText;
     private EditText latitudeText;
     private EditText longitudeText;
+    private CheckBox pollingCheckBox;
 
     private GeoLocationProvider geoLocationProvider;
     private GeofenceSettings settings;
@@ -77,6 +79,9 @@ public class SettingsActivity extends AppCompatActivity {
         latitudeText = (EditText)findViewById(R.id.latitudeText);
         longitudeText = (EditText)findViewById(R.id.longitudeText);
         updateHomeLocationText(settings.getHomeLocation());
+
+        pollingCheckBox = (CheckBox)findViewById(R.id.pollingCheckBox);
+        pollingCheckBox.setChecked(settings.isGpsPollingEnabled());
     }
 
     @Override
@@ -123,7 +128,7 @@ public class SettingsActivity extends AppCompatActivity {
 
                         Toast.makeText(getApplicationContext(),
                                 "Location loaded with accuracy: " + location.getAccuracy(),
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -131,26 +136,18 @@ public class SettingsActivity extends AppCompatActivity {
         if (!geoLocationProvider.tryRetrieveLocation()) {
             Toast.makeText(getApplicationContext(),
                     "Failed to get retieve your location.",
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
     public void showCurrentPositionClicked(View view) {
-        double latitude;
-        double longitude;
-
-        try {
-            latitude = Double.valueOf(latitudeText.getText().toString());
-            longitude = Double.valueOf(longitudeText.getText().toString());
-        } catch (NumberFormatException ex) {
-            latitude = Double.NaN;
-            longitude = Double.NaN;
-        }
-
-        if (latitude == Double.NaN)
+        Location location = getLocationFromUi();
+        if (location == null)
             return;
 
-        Uri gmmIntentUri = Uri.parse(String.format(Locale.ENGLISH, "geo:%f,%f?z=14", latitude, longitude));
+        Uri gmmIntentUri = Uri.parse(String.format(Locale.ENGLISH, "geo:%f,%f?z=14",
+                location.getLatitude(),
+                location.getLongitude()));
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         if (mapIntent.resolveActivity(getPackageManager()) != null) {
@@ -159,24 +156,31 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void saveClicked(View view) {
-        settings.setGeofenceProvider(providerSpinner.getSelectedItem().toString());
-        settings.setRadius(progressToRadius(radiusSeekBar.getProgress()));
-
-        double latitude;
-        double longitude;
-
-        try {
-            latitude = Double.valueOf(latitudeText.getText().toString());
-            longitude = Double.valueOf(longitudeText.getText().toString());
-        } catch (NumberFormatException ex) {
-            latitude = Double.NaN;
-            longitude = Double.NaN;
+        Location location = getLocationFromUi();
+        if (location == null) {
+            Toast.makeText(getApplicationContext(),
+                    "Failed to save.",
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
 
-        if (latitude == Double.NaN)
-            return;
-
-        settings.setHomeLocation(latitude, longitude);
+        settings.setGeofenceProvider(providerSpinner.getSelectedItem().toString());
+        settings.setRadius(progressToRadius(radiusSeekBar.getProgress()));
+        settings.setHomeLocation(location.getLatitude(), location.getLongitude());
+        settings.setGpsPollingEnabled(pollingCheckBox.isChecked());
         finish();
+    }
+
+    private Location getLocationFromUi() {
+        try {
+            double latitude = Double.valueOf(latitudeText.getText().toString());
+            double longitude = Double.valueOf(longitudeText.getText().toString());
+            Location location = new Location("");
+            location.setLatitude(latitude);
+            location.setLongitude(longitude);
+            return location;
+        } catch (NumberFormatException ex) {
+            return null;
+        }
     }
 }
