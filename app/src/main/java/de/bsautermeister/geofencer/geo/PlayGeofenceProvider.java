@@ -177,6 +177,11 @@ public class PlayGeofenceProvider implements GeofenceProvider {
         TimedGPSFixReceiver.stop(context);
     }
 
+    @Override
+    public String getName() {
+        return "Play Geofencing";
+    }
+
     private static PendingIntent getGeofencingPendingIntent(final Context context) {
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
         // calling addGeofences() and removeGeofences()

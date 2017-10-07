@@ -14,8 +14,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationServices;
-
 import de.bsautermeister.geofencer.geo.GeoLocationUtil;
 import de.bsautermeister.geofencer.geo.GeofenceProvider;
 import de.bsautermeister.geofencer.geo.GeofenceSettings;
@@ -115,10 +113,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateRunningProgress() {
-        String name = settings.getGeofenceProvider();
         if (settings.isGeofencingActive()) {
             runningProgress.setVisibility(View.VISIBLE);
-            runningProvider.setText(name);
+            runningProvider.setText(provider.getName());
         } else {
             runningProgress.setVisibility(View.INVISIBLE);
             runningProvider.setText("");
