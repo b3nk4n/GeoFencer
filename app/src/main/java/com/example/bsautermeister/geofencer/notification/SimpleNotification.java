@@ -49,6 +49,6 @@ public class SimpleNotification {
                                         .setSmallIcon(R.mipmap.ic_launcher)
                                         .setAutoCancel(true).build();
 
-        notificationManager.notify(0, notification);
+        notificationManager.notify(id, notification);
     }
 }
