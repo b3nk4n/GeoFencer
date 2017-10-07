@@ -16,7 +16,6 @@ public class TimedGPSFixReceiver extends BroadcastReceiver {
             return;
 
         GeoLocationProvider geoLocationProvider = new GeoLocationProvider(context);
-
         geoLocationProvider.setGeoLocationCallback(new GeoLocationProvider.GeoLocationCallback() {
             @Override
             public void locationUpdated(Location location) {
@@ -31,6 +30,6 @@ public class TimedGPSFixReceiver extends BroadcastReceiver {
                 Toast.makeText(context, accuracyString, Toast.LENGTH_LONG).show();
             }
         });
-
+        geoLocationProvider.tryRetrieveLocation();
     }
 }

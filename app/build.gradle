@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -32,4 +33,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:10.2.6'
     compile 'com.google.android.gms:play-services-maps:10.2.6'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:design:26.+'
 }

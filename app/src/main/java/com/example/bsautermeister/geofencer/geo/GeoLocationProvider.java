@@ -13,10 +13,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 
-/**
- * Created by bsautermeister on 06.10.17.
- */
-
 public class GeoLocationProvider {
 
     public interface GeoLocationCallback {
@@ -54,9 +50,9 @@ public class GeoLocationProvider {
                 lastKnownUserLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
             }
 
-            if (lastKnownUserLocation != null && geoLocationCallback != null) {
-                geoLocationCallback.locationUpdated(lastKnownUserLocation);
-            }
+            //if (lastKnownUserLocation != null && geoLocationCallback != null) {
+                //geoLocationCallback.locationUpdated(lastKnownUserLocation);
+            //}
         }
 
         @Override
@@ -75,9 +71,11 @@ public class GeoLocationProvider {
         }
     };
 
-    void setGeoLocationCallback(GeoLocationCallback callback) {
+    public void setGeoLocationCallback(GeoLocationCallback callback) {
         this.geoLocationCallback = callback;
+    }
 
+    public boolean tryRetrieveLocation() {
         if (googleApiClient.isConnected() && geoLocationCallback != null) {
             Location lastLocation = null;
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -89,6 +87,16 @@ public class GeoLocationProvider {
             }
             // FIXME bug here?! do not call this when lastKnown has not changed !?
             geoLocationCallback.locationUpdated(lastKnownUserLocation);
+            return true;
         }
+        return false;
+    }
+
+    public void connect() {
+        googleApiClient.connect();
+    }
+
+    public void disconnect() {
+        this.googleApiClient.disconnect();
     }
 }

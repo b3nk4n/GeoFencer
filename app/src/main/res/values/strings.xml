@@ -4,6 +4,11 @@
 
     <string name="setting_provider_title">Provider</string>
     <string name="setting_radius_title">Radius</string>
+    <string name="setting_home_location_title">Home Location</string>
+    <string name="setting_home_location_hint_lat">Latitude</string>
+    <string name="setting_home_location_hint_lng">Longitude</string>
+    <string name="setting_home_location_button">Use current position</string>
+    <string name="setting_home_show_button">Show this position</string>
 
     <string-array name="provider_array">
         <item>Play</item>

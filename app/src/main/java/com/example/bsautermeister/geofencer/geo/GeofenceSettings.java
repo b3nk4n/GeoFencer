@@ -39,6 +39,13 @@ public class GeofenceSettings {
         return homeLocation;
     }
 
+    public void setHomeLocation(double lat, double lng) {
+        Location homeLocation = new Location("");
+        homeLocation.setLatitude(lat);
+        homeLocation.setLongitude(lng);
+        setHomeLocation(homeLocation);
+    }
+
     public void setHomeLocation(Location location) {
         prefs.edit().putFloat("lat", (float)location.getLatitude())
                     .putFloat("lng", (float)location.getLongitude())
