@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer.geo;
+package de.bsautermeister.geofencer.geo;
 
 import android.Manifest;
 import android.app.PendingIntent;

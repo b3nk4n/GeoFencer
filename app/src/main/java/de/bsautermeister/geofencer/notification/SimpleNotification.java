@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer.notification;
+package de.bsautermeister.geofencer.notification;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -7,11 +7,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 
-import com.example.bsautermeister.geofencer.R;
+import de.bsautermeister.geofencer.R;
 
 public class SimpleNotification {
 
-    private static final String CHANNEL_ID = "com.example.bsautermeister.geofencer";
+    private static final String CHANNEL_ID = "de.bsautermeister.geofencer";
 
     private final Context context;
     private final NotificationManager notificationManager;

@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer;
+package de.bsautermeister.geofencer;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.example.bsautermeister.geofencer.geo.GeoLocationUtil;
+import de.bsautermeister.geofencer.geo.GeoLocationUtil;
 
 public class MainActivity extends AppCompatActivity {
 

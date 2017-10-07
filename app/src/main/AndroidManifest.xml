@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.bsautermeister.geofencer">
+    package="de.bsautermeister.geofencer">
 
     <!-- GEO Location Integration and WIFI Scan -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer.geo;
+package de.bsautermeister.geofencer.geo;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,8 +6,8 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.example.bsautermeister.geofencer.notification.SimpleNotification;
-import com.example.bsautermeister.geofencer.utils.DateUtils;
+import de.bsautermeister.geofencer.notification.SimpleNotification;
+import de.bsautermeister.geofencer.utils.DateUtils;
 import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofenceStatusCodes;
 import com.google.android.gms.location.GeofencingEvent;

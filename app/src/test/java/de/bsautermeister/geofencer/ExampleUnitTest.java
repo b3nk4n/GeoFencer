@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer;
+package de.bsautermeister.geofencer;
 
 import org.junit.Test;
 

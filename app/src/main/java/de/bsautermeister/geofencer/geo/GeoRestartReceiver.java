@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer.geo;
+package de.bsautermeister.geofencer.geo;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

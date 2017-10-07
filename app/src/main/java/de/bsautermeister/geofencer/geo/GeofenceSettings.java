@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer.geo;
+package de.bsautermeister.geofencer.geo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,7 +13,7 @@ public class GeofenceSettings {
     private SharedPreferences prefs;
 
     public GeofenceSettings(Context appContext) {
-        prefs = appContext.getSharedPreferences("com.example.bsautermeister.geofencer",
+        prefs = appContext.getSharedPreferences("de.bsautermeister.geofencer",
                                                 Context.MODE_PRIVATE);
     }
 

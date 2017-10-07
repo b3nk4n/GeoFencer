@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context="com.example.bsautermeister.geofencer.SettingsActivity">
+    tools:context="de.bsautermeister.geofencer.SettingsActivity">
 
     <TextView
         android:id="@+id/providerLabel"

@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer;
+package de.bsautermeister.geofencer;
 
 import android.content.Intent;
 import android.location.Location;
@@ -14,8 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bsautermeister.geofencer.geo.GeoLocationProvider;
-import com.example.bsautermeister.geofencer.geo.GeofenceSettings;
+import de.bsautermeister.geofencer.geo.GeoLocationProvider;
+import de.bsautermeister.geofencer.geo.GeofenceSettings;
 
 import java.util.Locale;
 

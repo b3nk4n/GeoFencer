@@ -1,4 +1,4 @@
-package com.example.bsautermeister.geofencer.utils;
+package de.bsautermeister.geofencer.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
