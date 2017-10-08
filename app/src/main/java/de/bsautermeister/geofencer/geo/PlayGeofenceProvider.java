@@ -215,7 +215,7 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     private static PendingIntent getGeofencingPendingIntent(final Context context) {
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
         // calling addGeofences() and removeGeofences()
-        Intent intent = new Intent(context.getApplicationContext(), GeoTransitionReceiver.class);
+        Intent intent = new Intent(context.getApplicationContext(), PlayTransitionReceiver.class);
         return PendingIntent.getBroadcast(context.getApplicationContext(), 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }

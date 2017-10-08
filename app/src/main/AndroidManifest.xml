@@ -29,7 +29,7 @@
             android:parentActivityName=".MainActivity" />
 
         <receiver
-            android:name=".geo.GeoTransitionReceiver"
+            android:name=".geo.PlayTransitionReceiver"
             android:exported="false" />
         <receiver
             android:name=".geo.GeoRestartReceiver"

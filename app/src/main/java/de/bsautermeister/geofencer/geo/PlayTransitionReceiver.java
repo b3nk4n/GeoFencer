@@ -10,13 +10,12 @@ import de.bsautermeister.geofencer.utils.DateUtils;
 import de.bsautermeister.geofencer.utils.GeofenceUtils;
 import de.bsautermeister.geofencer.utils.ToastLog;
 
-import com.google.android.gms.location.Geofence;
 import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.Random;
 
-public class GeoTransitionReceiver extends BroadcastReceiver {
-    private static final String TAG = "GeoTransitionReceiver";
+public class PlayTransitionReceiver extends BroadcastReceiver {
+    private static final String TAG = "PlayTransitionReceiver";
 
     SimpleNotification notification;
 
