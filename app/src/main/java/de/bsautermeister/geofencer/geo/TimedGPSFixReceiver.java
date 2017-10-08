@@ -20,6 +20,7 @@ public class TimedGPSFixReceiver extends BroadcastReceiver {
         if (!GeoLocationUtil.isGpsEnabled(context) || !GeoLocationUtil.hasGpsPermissions(context))
             return;
 
+        // TODO: maybe it is better to use the old-school LocationManager here without any GooglePlay Services connection constraints?
         GeoLocationProvider geoLocationProvider = new GeoLocationProvider(context);
         geoLocationProvider.connect(); // FIXME do we have to disconnect at the end?
         geoLocationProvider.setGeoLocationCallback(new GeoLocationProvider.GeoLocationCallback() {

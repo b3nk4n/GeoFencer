@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import de.bsautermeister.geofencer.notification.SimpleNotification;
 import de.bsautermeister.geofencer.utils.DateUtils;
+import de.bsautermeister.geofencer.utils.GeofenceUtils;
 import de.bsautermeister.geofencer.utils.ToastLog;
 
 import com.google.android.gms.location.Geofence;
@@ -35,19 +36,9 @@ public class GeoTransitionReceiver extends BroadcastReceiver {
 
     // TODO missing background thread here in Comfylight project? Or are broadcast-receivers generally in background thread?
     private void handleReceivedEventOnBackgroundThread(@NonNull final GeofencingEvent geofencingEvent) {
-        String content = String.format("%s: %s", DateUtils.getTimestamptString(), transitionString(geofencingEvent));
+        String content = String.format("%s: %s",
+                DateUtils.getTimestamptString(),
+                GeofenceUtils.transitionString(geofencingEvent));
         notification.show(new Random().nextInt(), content);
-    }
-
-    private String transitionString(@NonNull final GeofencingEvent geofencingEvent) {
-        int transitionCode = geofencingEvent.getGeofenceTransition();
-        if (transitionCode == Geofence.GEOFENCE_TRANSITION_EXIT)
-            return "EXIT";
-        else if (transitionCode == Geofence.GEOFENCE_TRANSITION_ENTER)
-            return "ENTER";
-        else if (transitionCode == Geofence.GEOFENCE_TRANSITION_DWELL)
-            return "DWELL";
-        else
-            return "UNKNOWN";
     }
 }
