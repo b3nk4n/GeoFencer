@@ -12,8 +12,9 @@
     <string name="setting_home_location_button">Use current position</string>
     <string name="setting_home_pick_button">Pick from map</string>
     <string name="setting_home_show_button">Show this position</string>
-    <string name="setting_polling_title">Background GPS polling</string>
-    <string name="setting_polling_enabled">Enabled (every minute)</string>
+    <string name="setting_other_title">Other Geofencing Settings</string>
+    <string name="setting_polling_enabled">GPS polling (every minute)</string>
+    <string name="setting_init_trigger_enabled">Initial trigger</string>
 
     <string-array name="provider_array">
         <item>Play</item>

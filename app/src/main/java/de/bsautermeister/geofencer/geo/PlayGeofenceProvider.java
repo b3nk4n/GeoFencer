@@ -38,6 +38,7 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     private Location homeLocation;
     private double enterRadius;
     private double exitRadius;
+    private boolean initTrigger;
 
     public PlayGeofenceProvider(Context appContext) {
         this.context = appContext;
@@ -84,10 +85,12 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     };
 
     @Override
-    public void start(Location homeLocation, double enterRadius, double exitRadius, boolean usePolling) {
+    public void start(Location homeLocation, double enterRadius, double exitRadius,
+                      boolean initTrigger, boolean usePolling) {
         this.homeLocation = homeLocation;
         this.enterRadius = enterRadius;
         this.exitRadius = exitRadius;
+        this.initTrigger = initTrigger;
 
         if (GeoLocationUtil.hasGpsPermissions(context)) {
             PendingIntent pendingIntent = getGeofencingPendingIntent(context);
@@ -185,7 +188,10 @@ public class PlayGeofenceProvider implements GeofenceProvider {
         // a) The user should be able to use the security system  while he is sleeping in the bed room
         // b) DEMO show cases
         // Also, this worked only reliable for ENTER.
-        builder.setInitialTrigger(0); // set zero or DWELL because ENTER is the default!
+        int init = 0; // set ZERO because ENTER is the default!
+        if (initTrigger)
+            init = GeofencingRequest.INITIAL_TRIGGER_ENTER | GeofencingRequest.INITIAL_TRIGGER_EXIT;
+        builder.setInitialTrigger(init);
 
         builder.addGeofences(fences);
 

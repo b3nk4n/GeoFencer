@@ -9,6 +9,8 @@ public class GeofenceSettings {
 
     private static final String DEFAULT_PROVIDER = "Play";
     private static final float DEFAULT_RADIUS = 100.0f;
+    private static final boolean DEFAULT_POLLING_ENABLED = false;
+    private static final boolean DEFAULT_INIT_TRIGGER_ENABLED = false;
 
     private SharedPreferences prefs;
 
@@ -69,11 +71,19 @@ public class GeofenceSettings {
     }
 
     public boolean isGpsPollingEnabled() {
-        return prefs.getBoolean("gps-polling", false);
+        return prefs.getBoolean("gps-polling", DEFAULT_POLLING_ENABLED);
     }
 
     public void setGpsPollingEnabled(boolean polling) {
         prefs.edit().putBoolean("gps-polling", polling).apply();
+    }
+
+    public boolean isInitialTriggerEnabled() {
+        return prefs.getBoolean("init-trigger", DEFAULT_INIT_TRIGGER_ENABLED);
+    }
+
+    public void setInitialTriggerEnabled(boolean polling) {
+        prefs.edit().putBoolean("init-trigger", polling).apply();
     }
 
     public boolean isGeofencingActive() {

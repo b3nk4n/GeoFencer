@@ -38,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText latitudeText;
     private EditText longitudeText;
     private CheckBox pollingCheckBox;
+    private CheckBox initialTriggerCheckBox;
 
     private GeoLocationProvider geoLocationProvider;
     private GeofenceSettings settings;
@@ -73,6 +74,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         pollingCheckBox = (CheckBox)findViewById(R.id.pollingCheckBox);
         pollingCheckBox.setChecked(settings.isGpsPollingEnabled());
+
+        initialTriggerCheckBox = (CheckBox)findViewById(R.id.initialTriggerCheckBox);
+        initialTriggerCheckBox.setChecked(settings.isInitialTriggerEnabled());
     }
 
     private static void initSeekBar(SeekBar seekBar, final TextView textView, int radius) {
@@ -208,6 +212,7 @@ public class SettingsActivity extends AppCompatActivity {
         settings.setExitRadius(progressToRadius(radiusExitSeekBar.getProgress()));
         settings.setHomeLocation(location.getLatitude(), location.getLongitude());
         settings.setGpsPollingEnabled(pollingCheckBox.isChecked());
+        settings.setInitialTriggerEnabled(initialTriggerCheckBox.isChecked());
         finish();
     }
 

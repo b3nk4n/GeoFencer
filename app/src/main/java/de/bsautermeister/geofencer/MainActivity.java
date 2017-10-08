@@ -123,16 +123,17 @@ public class MainActivity extends AppCompatActivity {
 
     public void startClicked(View view) {
         Location home = settings.getHomeLocation();
-        float enterRadius = settings.getEnterRadius();
-        float exitRadius = settings.getExitRadius();
-        boolean usePolling = settings.isGpsPollingEnabled();
-
         if (home == null) {
             Toast.makeText(this, "Set a home in settings first...", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        provider.start(home, enterRadius, exitRadius, usePolling);
+        float enterRadius = settings.getEnterRadius();
+        float exitRadius = settings.getExitRadius();
+        boolean initTrigger = settings.isInitialTriggerEnabled();
+        boolean usePolling = settings.isGpsPollingEnabled();
+
+        provider.start(home, enterRadius, exitRadius, initTrigger, usePolling);
         settings.setGeofencingActive(true);
         updateFloatingButtons();
         updateRunningProgress();

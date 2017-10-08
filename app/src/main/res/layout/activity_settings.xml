@@ -53,7 +53,6 @@
 
     <SeekBar
         android:id="@+id/radiusEnterSeekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -85,7 +84,6 @@
 
     <SeekBar
         android:id="@+id/radiusExitSeekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -163,12 +161,13 @@
         android:id="@+id/pollingLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/setting_polling_title"
+        android:text="@string/setting_other_title"
         android:textStyle="bold"
         android:layout_marginTop="4dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/showPositionButton"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="6dp" />
 
     <CheckBox
         android:id="@+id/pollingCheckBox"
@@ -177,6 +176,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pollingLabel"
         android:text="@string/setting_polling_enabled" />
+
+    <CheckBox
+        android:id="@+id/initialTriggerCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pollingCheckBox"
+        android:text="@string/setting_init_trigger_enabled" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
