@@ -1,5 +1,11 @@
 apply plugin: 'com.android.application'
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
@@ -35,4 +41,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-places:10.2.6'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:26.+'
+    compile(name:'pathsense-android-sdk-location-geofence-bundle-release-3.1.0.2', ext:'aar')
 }

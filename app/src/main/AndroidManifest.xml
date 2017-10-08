@@ -17,10 +17,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB_fsz8ZKBmBVYTmxIT9NLDwKfcMpHlxqA"/>
-
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -51,6 +47,17 @@
 
         <receiver
             android:name=".geo.TimedGPSFixReceiver" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyB_fsz8ZKBmBVYTmxIT9NLDwKfcMpHlxqA"/>
+
+        <meta-data
+            android:name="com.pathsense.android.sdk.CLIENT_ID"
+            android:value="pKABki667ZptnuQ7W01KsWYBOPa2tGcj8d8ie93W" />
+        <meta-data
+            android:name="com.pathsense.android.sdk.API_KEY"
+            android:value="ZVovM7QcHQ8BVMtpO1VeH5xMjoRmY1W38ZS4x5d7" />
     </application>
 
 </manifest>
