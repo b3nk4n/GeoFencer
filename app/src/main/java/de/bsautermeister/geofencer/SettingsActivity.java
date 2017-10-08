@@ -206,6 +206,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         settings.setGeofenceProvider(providerSpinner.getSelectedItem().toString());
         settings.setEnterRadius(progressToRadius(radiusEnterSeekBar.getProgress()));
+        settings.setExitRadius(progressToRadius(radiusExitSeekBar.getProgress()));
         settings.setHomeLocation(location.getLatitude(), location.getLongitude());
         settings.setGpsPollingEnabled(pollingCheckBox.isChecked());
         finish();
