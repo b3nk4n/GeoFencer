@@ -5,6 +5,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -14,12 +15,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+
 import de.bsautermeister.geofencer.geo.GeoLocationProvider;
 import de.bsautermeister.geofencer.geo.GeofenceSettings;
 
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
+    private static final String TAG = "SettingsActivity";
+
+    private static final int PLACE_PICKER_REQUEST = 1;
 
     public static final int MIN_RADIUS = 50;
     public static final int MAX_RADIUS = 1000;
@@ -137,6 +144,28 @@ public class SettingsActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),
                     "Failed to get retieve your location.",
                     Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void pickLocationClicked(View view) {
+        try {
+            PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+            startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
+        } catch (Exception e) {
+            Log.w(TAG, "Play services not available.");
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, intent);
+                Location location = new Location("");
+                location.setLatitude(place.getLatLng().latitude);
+                location.setLongitude(place.getLatLng().longitude);
+                updateHomeLocationText(location);
+            }
         }
     }
 
