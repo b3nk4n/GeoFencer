@@ -16,6 +16,8 @@
     <string name="setting_polling_enabled">GPS polling (every minute)</string>
     <string name="setting_init_trigger_enabled">Initial trigger</string>
 
+    <string name="google_places_api_key">AIzaSyAod50EiI-0eoXNIdycyIKtTCZWPn0SSrY</string>
+
     <string-array name="provider_array">
         <item>Play</item>
         <item>PathSense</item>
