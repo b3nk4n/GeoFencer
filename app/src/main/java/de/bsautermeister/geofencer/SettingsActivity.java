@@ -34,8 +34,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Spinner providerSpinner;
 
-    private SeekBar radiusSeekBar;
-    private TextView radiusText;
+    private SeekBar radiusEnterSeekBar;
+    private TextView radiusEnterText;
+    private SeekBar radiusExitSeekBar;
+    private TextView radiusExitText;
     private EditText latitudeText;
     private EditText longitudeText;
     private CheckBox pollingCheckBox;
@@ -58,13 +60,28 @@ public class SettingsActivity extends AppCompatActivity {
         providerSpinner.setAdapter(providerAdapter);
         providerSpinner.setSelection(settings.getGeofenceProvider().equals("Play") ? 0 : 1);
 
-        radiusText = (TextView) findViewById(R.id.radiusText);
-        radiusSeekBar = (SeekBar) findViewById(R.id.radiusSeekBar);
-        radiusSeekBar.setMax(radiusToProgress(MAX_RADIUS));
-        int radius = (int)settings.getRadius();
-        radiusSeekBar.setProgress(radiusToProgress(radius));
-        updateRadiusText(radius);
-        radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        int enterRadius = (int)settings.getEnterRadius();
+        radiusEnterText = (TextView) findViewById(R.id.radiusEnterText);
+        radiusEnterSeekBar = (SeekBar) findViewById(R.id.radiusEnterSeekBar);
+        initSeekBar(radiusEnterSeekBar, radiusEnterText, enterRadius);
+
+        int exitRadius = (int)settings.getExitRadius();
+        radiusExitText = (TextView) findViewById(R.id.radiusExitText);
+        radiusExitSeekBar = (SeekBar) findViewById(R.id.radiusExitSeekBar);
+        initSeekBar(radiusExitSeekBar, radiusExitText, exitRadius);
+
+        latitudeText = (EditText)findViewById(R.id.latitudeText);
+        longitudeText = (EditText)findViewById(R.id.longitudeText);
+        updateHomeLocationText(settings.getHomeLocation());
+
+        pollingCheckBox = (CheckBox)findViewById(R.id.pollingCheckBox);
+        pollingCheckBox.setChecked(settings.isGpsPollingEnabled());
+    }
+
+    private static void initSeekBar(SeekBar seekBar, final TextView textView, int radius) {
+        seekBar.setMax(radiusToProgress(MAX_RADIUS));
+        seekBar.setProgress(radiusToProgress(radius));
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
@@ -79,16 +96,10 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
                 int radius = progressToRadius(progress);
-                updateRadiusText(radius);
+                updateRadiusText(textView, radius);
             }
         });
-
-        latitudeText = (EditText)findViewById(R.id.latitudeText);
-        longitudeText = (EditText)findViewById(R.id.longitudeText);
-        updateHomeLocationText(settings.getHomeLocation());
-
-        pollingCheckBox = (CheckBox)findViewById(R.id.pollingCheckBox);
-        pollingCheckBox.setChecked(settings.isGpsPollingEnabled());
+        updateRadiusText(textView, radius);
     }
 
     @Override
@@ -103,8 +114,8 @@ public class SettingsActivity extends AppCompatActivity {
         geoLocationProvider.disconnect();
     }
 
-    private void updateRadiusText(int radius) {
-        radiusText.setText(String.valueOf(radius) + "m");
+    private static void updateRadiusText(TextView textView, int radius) {
+        textView.setText(String.valueOf(radius) + "m");
     }
 
     private void updateHomeLocationText(Location location) {
@@ -115,11 +126,11 @@ public class SettingsActivity extends AppCompatActivity {
         longitudeText.setText(String.valueOf(location.getLongitude()));
     }
 
-    private int progressToRadius(int progress) {
+    private static int progressToRadius(int progress) {
         return MIN_RADIUS + progress * RADIUS_STEP;
     }
 
-    private int radiusToProgress(int radius) {
+    private static int radiusToProgress(int radius) {
         return (radius - MIN_RADIUS) / RADIUS_STEP;
     }
 
@@ -194,7 +205,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         settings.setGeofenceProvider(providerSpinner.getSelectedItem().toString());
-        settings.setRadius(progressToRadius(radiusSeekBar.getProgress()));
+        settings.setEnterRadius(progressToRadius(radiusEnterSeekBar.getProgress()));
         settings.setHomeLocation(location.getLatitude(), location.getLongitude());
         settings.setGpsPollingEnabled(pollingCheckBox.isChecked());
         finish();

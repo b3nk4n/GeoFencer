@@ -4,6 +4,8 @@
 
     <string name="setting_provider_title">Provider</string>
     <string name="setting_radius_title">Radius</string>
+    <string name="setting_radius_enter">Enter</string>
+    <string name="setting_radius_exit">Exit</string>
     <string name="setting_home_location_title">Home Location</string>
     <string name="setting_home_location_hint_lat">Latitude</string>
     <string name="setting_home_location_hint_lng">Longitude</string>

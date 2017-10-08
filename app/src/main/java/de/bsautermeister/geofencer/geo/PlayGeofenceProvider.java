@@ -26,14 +26,16 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     private static final String TAG = "PlayGeofenceProvider";
 
     private static final String GEO_ENTER_LISTENER_KEY = PlayGeofenceProvider.class.getName() + ".ENTER";
-    //private static final String GEO_EXIT_LISTENER_KEY = PlayGeofenceProvider.class.getName() + ".EXIT";
+    private static final String GEO_EXIT_LISTENER_KEY = PlayGeofenceProvider.class.getName() + ".EXIT";
+    private static final String GEO_BOTH_LISTENER_KEY = PlayGeofenceProvider.class.getName() + ".BOTH";
 
     private Context context;
     private GoogleApiClient googleApiClient;
     private PendingIntent pendingIntent;
 
     private Location homeLocation;
-    private double radius;
+    private double enterRadius;
+    private double exitRadius;
 
     public PlayGeofenceProvider(Context appContext) {
         this.context = appContext;
@@ -77,9 +79,10 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     };
 
     @Override
-    public void start(Location homeLocation, double radius, boolean usePolling) {
+    public void start(Location homeLocation, double enterRadius, double exitRadius, boolean usePolling) {
         this.homeLocation = homeLocation;
-        this.radius = radius;
+        this.enterRadius = enterRadius;
+        this.exitRadius = exitRadius;
 
         if (GeoLocationUtil.hasGpsPermissions(context)) {
             PendingIntent pendingIntent = getGeofencingPendingIntent(context);
@@ -88,7 +91,6 @@ public class PlayGeofenceProvider implements GeofenceProvider {
                 startInternal(homeLocation, pendingIntent);
             } else {
                 // delay internal start (called via onConnected() callback)
-                this.homeLocation = homeLocation;
                 this.pendingIntent = pendingIntent;
             }
 
@@ -126,32 +128,46 @@ public class PlayGeofenceProvider implements GeofenceProvider {
 
         List<Geofence> fences = new ArrayList<>();
         // TODO: for multiple home support different requestIds for different homes have to be used!
-        fences.add(new Geofence.Builder()
-                .setRequestId(GEO_ENTER_LISTENER_KEY)
+        if (enterRadius == exitRadius) {
+            fences.add(new Geofence.Builder()
+                    .setRequestId(GEO_BOTH_LISTENER_KEY)
+                    .setCircularRegion(
+                            location.getLatitude(),
+                            location.getLongitude(),
+                            (float)enterRadius
+                    )
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setLoiteringDelay(20 * 1000)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .build()
+            );
+        } else {
+            fences.add(new Geofence.Builder()
+                    .setRequestId(GEO_ENTER_LISTENER_KEY)
+                    .setCircularRegion(
+                            location.getLatitude(),
+                            location.getLongitude(),
+                            (float)enterRadius
+                    )
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setLoiteringDelay(20 * 1000)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                    .build()
+            );
+            fences.add(new Geofence.Builder()
+                    .setRequestId(GEO_EXIT_LISTENER_KEY)
 
-                .setCircularRegion(
-                        location.getLatitude(),
-                        location.getLongitude(),
-                        (float)radius
-                )
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setLoiteringDelay(20 * 1000)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER | Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build()
-        );
-        /*fences.add(new Geofence.Builder()
-                .setRequestId(GEO_EXIT_LISTENER_KEY)
-
-                .setCircularRegion(
-                        location.getLatitude(),
-                        location.getLongitude(),
-                        EXIT_RADIUS_IN_METER
-                )
-                .setExpirationDuration(Geofence.NEVER_EXPIRE)
-                .setLoiteringDelay(20 * 1000)
-                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_EXIT)
-                .build()
-        );*/
+                    .setCircularRegion(
+                            location.getLatitude(),
+                            location.getLongitude(),
+                            (float)exitRadius
+                    )
+                    .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setLoiteringDelay(20 * 1000)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .build()
+            );
+        }
 
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
 

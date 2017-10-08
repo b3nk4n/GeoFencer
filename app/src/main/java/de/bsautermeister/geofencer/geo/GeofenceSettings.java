@@ -17,12 +17,20 @@ public class GeofenceSettings {
                                                 Context.MODE_PRIVATE);
     }
 
-    public float getRadius() {
-        return prefs.getFloat("radius", DEFAULT_RADIUS);
+    public float getEnterRadius() {
+        return prefs.getFloat("radius-enter", DEFAULT_RADIUS);
     }
 
-    public void setRadius(float radius) {
-        prefs.edit().putFloat("radius", radius).apply();
+    public void setEnterRadius(float radius) {
+        prefs.edit().putFloat("radius-enter", radius).apply();
+    }
+
+    public float getExitRadius() {
+        return prefs.getFloat("radius-exit", DEFAULT_RADIUS);
+    }
+
+    public void setExitRadius(float radius) {
+        prefs.edit().putFloat("radius-exit", radius).apply();
     }
 
     @Nullable

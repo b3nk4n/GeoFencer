@@ -124,7 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void startClicked(View view) {
         Location home = settings.getHomeLocation();
-        float radius = settings.getRadius();
+        float enterRadius = settings.getEnterRadius();
+        float exitRadius = settings.getExitRadius();
         boolean usePolling = settings.isGpsPollingEnabled();
 
         if (home == null) {
@@ -132,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        provider.start(home, radius, usePolling);
+        provider.start(home, enterRadius, exitRadius, usePolling);
         settings.setGeofencingActive(true);
         updateFloatingButtons();
         updateRunningProgress();

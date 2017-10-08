@@ -41,8 +41,18 @@
         app:layout_constraintTop_toBottomOf="@+id/providerSpinner"
         android:layout_marginStart="8dp" />
 
+    <TextView
+        android:id="@+id/radiusEnterLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_radius_enter"
+        android:layout_marginTop="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiusLabel"
+        android:layout_marginStart="8dp"/>
+
     <SeekBar
-        android:id="@+id/radiusSeekBar"
+        android:id="@+id/radiusEnterSeekBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -50,17 +60,49 @@
         android:layout_marginRight="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radiusLabel"
+        app:layout_constraintTop_toBottomOf="@+id/radiusEnterLabel"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp" />
 
     <TextView
-        android:id="@+id/radiusText"
+        android:id="@+id/radiusEnterText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radiusSeekBar"
+        app:layout_constraintTop_toBottomOf="@+id/radiusEnterSeekBar"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/radiusExitLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setting_radius_exit"
+        android:layout_marginTop="4dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiusEnterText"
+        android:layout_marginStart="8dp"/>
+
+    <SeekBar
+        android:id="@+id/radiusExitSeekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiusExitLabel"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/radiusExitText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radiusExitSeekBar"
         android:layout_marginEnd="8dp" />
 
     <TextView
@@ -71,7 +113,7 @@
         android:text="@string/setting_home_location_title"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radiusText" />
+        app:layout_constraintTop_toBottomOf="@+id/radiusExitText" />
 
     <EditText
         android:id="@+id/latitudeText"

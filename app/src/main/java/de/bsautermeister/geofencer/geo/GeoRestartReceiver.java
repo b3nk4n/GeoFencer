@@ -22,7 +22,8 @@ public class GeoRestartReceiver extends BroadcastReceiver {
             return;
 
         Location homeLocation = settings.getHomeLocation();
-        double radius = settings.getRadius();
+        double enterRadius = settings.getEnterRadius();
+        double exitRadius = settings.getExitRadius();
         String activeGeofenceProvider = settings.getGeofenceProvider();
         boolean usePolling = settings.isGpsPollingEnabled();
 
@@ -35,7 +36,7 @@ public class GeoRestartReceiver extends BroadcastReceiver {
             }
 
             if (geofenceProvider != null)
-                geofenceProvider.start(homeLocation, radius, usePolling);
+                geofenceProvider.start(homeLocation, enterRadius, exitRadius, usePolling);
         }
     }
 }
