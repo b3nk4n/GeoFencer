@@ -5,7 +5,10 @@ import android.location.Location;
 
 import com.pathsense.android.sdk.location.PathsenseLocationProviderApi;
 
+import de.bsautermeister.geofencer.utils.ToastLog;
+
 public class PathSenseGeofenceProvider implements GeofenceProvider {
+    private static final String TAG = "PathSenseGeofenceProvider";
 
     public static final String GEOFENCE_ENTER_KEY = "ENTER";
     public static final String GEOFENCE_EXIT_KEY = "EXIT";
@@ -22,6 +25,8 @@ public class PathSenseGeofenceProvider implements GeofenceProvider {
 
     @Override
     public void start(Location homeLocation, double enterRadius, double exitRadius, boolean initTrigger, boolean usePolling) {
+        ToastLog.logShort(context, TAG, "Starting PathSense geofencing...");
+
         if (enterRadius == exitRadius) {
             api.addGeofence(GEOFENCE_BOTH_KEY,
                     homeLocation.getLatitude(),
@@ -47,6 +52,7 @@ public class PathSenseGeofenceProvider implements GeofenceProvider {
 
     @Override
     public void stop() {
+        ToastLog.logShort(context, TAG, "Stopping PathSense geofencing...");
         api.removeGeofences();
         TimedGPSFixReceiver.stop(context);
     }
