@@ -19,6 +19,7 @@ public class TimedGPSFixReceiver extends BroadcastReceiver {
             return;
 
         GeoLocationProvider geoLocationProvider = new GeoLocationProvider(context);
+        geoLocationProvider.connect(); // FIXME do we have to disconnect at the end?
         geoLocationProvider.setGeoLocationCallback(new GeoLocationProvider.GeoLocationCallback() {
             @Override
             public void locationUpdated(Location location) {
@@ -29,8 +30,9 @@ public class TimedGPSFixReceiver extends BroadcastReceiver {
                     distance = home.distanceTo(location);
 
                 String accuracyString = (location.hasAccuracy() ? String.valueOf(location.getAccuracy()) : "?");
-                Log.d(TAG, String.format("GPS: Acc: %s; Dist: %.2f", accuracyString, distance));
-                Toast.makeText(context, accuracyString, Toast.LENGTH_LONG).show();
+                String message = String.format("Accuracy: %s Distance: %.2f", accuracyString, distance);
+                Log.d(TAG, message);
+                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
             }
         });
         geoLocationProvider.tryRetrieveLocation();

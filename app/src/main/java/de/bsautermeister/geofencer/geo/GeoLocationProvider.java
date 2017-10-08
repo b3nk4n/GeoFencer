@@ -24,7 +24,7 @@ public class GeoLocationProvider {
     private Context context;
     private GoogleApiClient googleApiClient;
 
-    private volatile Location lastKnownUserLocation;
+    //private volatile Location lastKnownUserLocation;
 
     private GeoLocationCallback geoLocationCallback;
 
@@ -46,13 +46,12 @@ public class GeoLocationProvider {
         @Override
         public void onConnected(Bundle bundle) {
             Log.d(TAG, "Google API connected for GPS location: " + bundle);
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                lastKnownUserLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            }
+            Location lastLocation = getLastKnowLocation();
 
-            //if (lastKnownUserLocation != null && geoLocationCallback != null) {
-                //geoLocationCallback.locationUpdated(lastKnownUserLocation);
-            //}
+            if (lastLocation != null && geoLocationCallback != null && locationCalllbackPending) {
+                locationCalllbackPending = false;
+                geoLocationCallback.locationUpdated(lastLocation);
+            }
         }
 
         @Override
@@ -75,28 +74,36 @@ public class GeoLocationProvider {
         this.geoLocationCallback = callback;
     }
 
+    public Location getLastKnowLocation() {
+        if (googleApiClient.isConnected() &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+        }
+        return null;
+    }
+
+    private volatile boolean locationCalllbackPending = false;
     public boolean tryRetrieveLocation() {
         if (googleApiClient.isConnected() && geoLocationCallback != null) {
-            Location lastLocation = null;
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                lastLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-            }
+            Location lastLocation = getLastKnowLocation();
 
             if (lastLocation != null) {
-                lastKnownUserLocation = lastLocation;
+                geoLocationCallback.locationUpdated(lastLocation);
+                return true;
             }
-            // FIXME bug here?! do not call this when lastKnown has not changed !?
-            geoLocationCallback.locationUpdated(lastKnownUserLocation);
-            return true;
+        } else {
+            locationCalllbackPending = true;
         }
         return false;
     }
 
     public void connect() {
-        googleApiClient.connect();
+        if (!googleApiClient.isConnected() || !googleApiClient.isConnecting())
+            googleApiClient.connect();
     }
 
     public void disconnect() {
-        this.googleApiClient.disconnect();
+        if (googleApiClient.isConnected() || googleApiClient.isConnecting())
+            this.googleApiClient.disconnect();
     }
 }

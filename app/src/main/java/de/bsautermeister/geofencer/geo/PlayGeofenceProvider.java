@@ -48,8 +48,8 @@ public class PlayGeofenceProvider implements GeofenceProvider {
                 .addOnConnectionFailedListener(connectionFailedListener)
                 .addApi(LocationServices.API)
                 .build();
-
-        googleApiClient.connect();
+        if (!googleApiClient.isConnected() || !googleApiClient.isConnecting())
+            googleApiClient.connect();
     }
 
     private final GoogleApiClient.ConnectionCallbacks connectionCallbacks = new GoogleApiClient.ConnectionCallbacks() {
