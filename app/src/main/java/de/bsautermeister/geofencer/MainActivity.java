@@ -20,7 +20,6 @@ import de.bsautermeister.geofencer.geo.GeofenceSettings;
 import de.bsautermeister.geofencer.geo.PlayGeofenceProvider;
 
 public class MainActivity extends AppCompatActivity {
-
     private static final int LOCATION_REQUEST_CODE = 0;
 
     private GeofenceSettings settings;

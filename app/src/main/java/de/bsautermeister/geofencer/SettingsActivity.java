@@ -5,7 +5,6 @@ import android.location.Location;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -24,8 +23,6 @@ import de.bsautermeister.geofencer.geo.GeofenceSettings;
 import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
-    private static final String TAG = "SettingsActivity";
-
     private static final int PLACE_PICKER_REQUEST = 1;
 
     public static final int MIN_RADIUS = 50;
@@ -163,7 +160,9 @@ public class SettingsActivity extends AppCompatActivity {
             PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
         } catch (Exception e) {
-            Log.w(TAG, "Play services not available.");
+            Toast.makeText(getApplicationContext(),
+                    "Play services not available.",
+                    Toast.LENGTH_SHORT).show();
         }
     }
 

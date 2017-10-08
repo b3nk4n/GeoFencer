@@ -9,7 +9,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -21,6 +20,9 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import de.bsautermeister.geofencer.utils.ToastLog;
 
 public class PlayGeofenceProvider implements GeofenceProvider {
     private static final String TAG = "PlayGeofenceProvider";
@@ -55,6 +57,8 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     private final GoogleApiClient.ConnectionCallbacks connectionCallbacks = new GoogleApiClient.ConnectionCallbacks() {
         @Override
         public void onConnected(Bundle bundle) {
+            ToastLog.logShort(context, TAG, "Google API connected.");
+
             if (homeLocation != null) {
                 startInternal(homeLocation, pendingIntent);
 
@@ -63,14 +67,15 @@ public class PlayGeofenceProvider implements GeofenceProvider {
         }
 
         @Override
-        public void onConnectionSuspended(int i) {}
+        public void onConnectionSuspended(int i) {
+            ToastLog.warnLong(context, TAG, "Google API suspended.");
+        }
     };
 
     private final GoogleApiClient.OnConnectionFailedListener connectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
         @Override
         public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-            Log.w(TAG, "Google Play API failed " + connectionResult);
-            // TODO handle all possible error codes
+            ToastLog.warnShort(context, TAG, "Google API failed.");
             switch (connectionResult.getErrorCode()) {
                 case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED: // SERVICE_VERSION_UPDATE_REQUIRED
                     break;
@@ -96,16 +101,18 @@ public class PlayGeofenceProvider implements GeofenceProvider {
 
             if (usePolling)
                 TimedGPSFixReceiver.start(context);
+        } else {
+            ToastLog.warnShort(context, TAG, "GPS permission required.");
         }
     }
 
     // According to documentation there are cases when registered Geofences have to be re-registered, among others:
     // - The app has received a GEOFENCE_NOT_AVAILABLE alert. This typically happens after NLP (Android's Network Location Provider) is disabled.
     // (https://developer.android.com/training/location/geofencing.html #Re-register geofences only when required)
-    private  void startInternal(final Location homeLocation, PendingIntent pendingIntent) {
+    private void startInternal(final Location homeLocation, PendingIntent pendingIntent) {
         GeofencingRequest geofenceRequest = createGeofenceRequest(homeLocation);
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.i(TAG, "Starting Play geofencing...");
+            ToastLog.logShort(context, TAG, "Starting Play geofencing...");
 
             LocationServices.GeofencingApi.addGeofences(
                     googleApiClient,
@@ -114,10 +121,11 @@ public class PlayGeofenceProvider implements GeofenceProvider {
             ).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
-                    Log.i(TAG, String.format("Set Geofence to (%f, %f) result: %s",
-                        homeLocation.getLatitude(),
-                        homeLocation.getLongitude(),
-                        status.getStatusMessage()));
+                    String msg = String.format(Locale.getDefault(),
+                            "Geofence: (%.3f, %.3f)",
+                            homeLocation.getLatitude(),
+                            homeLocation.getLongitude());
+                    ToastLog.logShort(context, TAG, msg);
                 }
             });
         }
@@ -186,7 +194,7 @@ public class PlayGeofenceProvider implements GeofenceProvider {
 
     @Override
     public void stop() {
-        Log.i(TAG, "Stopping Play geofencing...");
+        ToastLog.logShort(context, TAG, "Stopping Play geofencing...");
         PendingIntent pendingIntent = getGeofencingPendingIntent(context);
         LocationServices.GeofencingApi.removeGeofences(googleApiClient, pendingIntent);
 

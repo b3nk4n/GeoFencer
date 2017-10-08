@@ -7,11 +7,12 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+
+import de.bsautermeister.geofencer.utils.ToastLog;
 
 public class GeoLocationProvider {
 
@@ -23,8 +24,6 @@ public class GeoLocationProvider {
 
     private Context context;
     private GoogleApiClient googleApiClient;
-
-    //private volatile Location lastKnownUserLocation;
 
     private GeoLocationCallback geoLocationCallback;
 
@@ -45,7 +44,7 @@ public class GeoLocationProvider {
     private final GoogleApiClient.ConnectionCallbacks connectionCallbacks = new GoogleApiClient.ConnectionCallbacks() {
         @Override
         public void onConnected(Bundle bundle) {
-            Log.d(TAG, "Google API connected for GPS location: " + bundle);
+            ToastLog.logShort(context, TAG, "Google API connected.");
             Location lastLocation = getLastKnowLocation();
 
             if (lastLocation != null && geoLocationCallback != null && locationCalllbackPending) {
@@ -55,14 +54,15 @@ public class GeoLocationProvider {
         }
 
         @Override
-        public void onConnectionSuspended(int i) {}
+        public void onConnectionSuspended(int i) {
+            ToastLog.warnLong(context, TAG, "Google API suspended.");
+        }
     };
 
     private final GoogleApiClient.OnConnectionFailedListener connectionFailedListener = new GoogleApiClient.OnConnectionFailedListener() {
         @Override
         public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-            Log.w(TAG, "Google Play API failed " + connectionResult);
-            // TODO handle all possible error codes
+            ToastLog.warnShort(context, TAG, "Google API failed.");
             switch (connectionResult.getErrorCode()) {
                 case ConnectionResult.SERVICE_VERSION_UPDATE_REQUIRED: // SERVICE_VERSION_UPDATE_REQUIRED
                     break;
@@ -74,7 +74,7 @@ public class GeoLocationProvider {
         this.geoLocationCallback = callback;
     }
 
-    public Location getLastKnowLocation() {
+    private Location getLastKnowLocation() {
         if (googleApiClient.isConnected() &&
             ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             return LocationServices.FusedLocationApi.getLastLocation(googleApiClient);

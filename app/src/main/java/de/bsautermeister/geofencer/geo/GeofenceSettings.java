@@ -7,8 +7,8 @@ import android.support.annotation.Nullable;
 
 public class GeofenceSettings {
 
-    public static final String DEFAULT_PROVIDER = "Play";
-    public static final float DEFAULT_RADIUS = 100.0f;
+    private static final String DEFAULT_PROVIDER = "Play";
+    private static final float DEFAULT_RADIUS = 100.0f;
 
     private SharedPreferences prefs;
 

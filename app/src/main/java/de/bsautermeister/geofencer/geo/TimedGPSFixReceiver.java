@@ -7,8 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.SystemClock;
-import android.util.Log;
-import android.widget.Toast;
+
+import java.util.Locale;
+
+import de.bsautermeister.geofencer.utils.ToastLog;
 
 public class TimedGPSFixReceiver extends BroadcastReceiver {
     private static final String TAG = "TimedGPSFixReceiver";
@@ -30,9 +32,8 @@ public class TimedGPSFixReceiver extends BroadcastReceiver {
                     distance = home.distanceTo(location);
 
                 String accuracyString = (location.hasAccuracy() ? String.valueOf(location.getAccuracy()) : "?");
-                String message = String.format("Accuracy: %s Distance: %.2f", accuracyString, distance);
-                Log.d(TAG, message);
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                String message = String.format(Locale.getDefault(), "Accuracy: %s Distance: %.2f", accuracyString, distance);
+                ToastLog.logLong(context, TAG, message);
             }
         });
         geoLocationProvider.tryRetrieveLocation();

@@ -4,7 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.util.Log;
+
+import de.bsautermeister.geofencer.utils.ToastLog;
 
 public class GeoRestartReceiver extends BroadcastReceiver {
     private static final String TAG = "GeoRestartReceiver";
@@ -14,12 +15,14 @@ public class GeoRestartReceiver extends BroadcastReceiver {
         if (!GeoLocationUtil.isGpsEnabled(context) || !GeoLocationUtil.hasGpsPermissions(context))
             return;
 
-        Log.d(TAG, "Re-registering geofences");
-
         GeofenceSettings settings = new GeofenceSettings(context);
 
-        if (!settings.isGeofencingActive())
+        if (!settings.isGeofencingActive()) {
+            ToastLog.logLong(context, TAG, "No provider active.");
             return;
+        }
+
+        ToastLog.logLong(context, TAG, "Re-registering provider...");
 
         Location homeLocation = settings.getHomeLocation();
         double enterRadius = settings.getEnterRadius();
@@ -35,8 +38,9 @@ public class GeoRestartReceiver extends BroadcastReceiver {
                 // TODO
             }
 
-            if (geofenceProvider != null)
+            if (geofenceProvider != null) {
                 geofenceProvider.start(homeLocation, enterRadius, exitRadius, usePolling);
+            }
         }
     }
 }
