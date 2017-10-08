@@ -3,6 +3,7 @@ package de.bsautermeister.geofencer;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import de.bsautermeister.geofencer.geo.GeoLocationUtil;
 import de.bsautermeister.geofencer.geo.GeofenceProvider;
 import de.bsautermeister.geofencer.geo.GeofenceSettings;
+import de.bsautermeister.geofencer.geo.PathSenseGeofenceProvider;
 import de.bsautermeister.geofencer.geo.PlayGeofenceProvider;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         if (settings.getGeofenceProvider().equals("Play")) {
             provider = new PlayGeofenceProvider(getApplicationContext());
         } else if (settings.getGeofenceProvider().equals("PathSense")){
-            // TODO
+            provider = new PathSenseGeofenceProvider(getApplicationContext());
         }
 
         startButton = (FloatingActionButton)findViewById(R.id.startButton);
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+                                           @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case LOCATION_REQUEST_CODE: {
                 // If request is cancelled, the result arrays are empty.

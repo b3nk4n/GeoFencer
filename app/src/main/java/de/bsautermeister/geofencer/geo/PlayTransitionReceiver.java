@@ -22,7 +22,6 @@ public class PlayTransitionReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
-
         notification = new SimpleNotification(context);
 
         if (geofencingEvent != null && !geofencingEvent.hasError()) {

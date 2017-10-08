@@ -48,6 +48,9 @@
         <receiver
             android:name=".geo.TimedGPSFixReceiver" />
 
+        <receiver
+            android:name=".geo.PathSenseTransitionReceiver" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB_fsz8ZKBmBVYTmxIT9NLDwKfcMpHlxqA"/>

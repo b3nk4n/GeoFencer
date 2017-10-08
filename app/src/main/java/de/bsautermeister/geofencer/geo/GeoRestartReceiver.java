@@ -36,7 +36,7 @@ public class GeoRestartReceiver extends BroadcastReceiver {
             if (activeGeofenceProvider.equals("Play")) {
                 geofenceProvider = new PlayGeofenceProvider(context);
             } else if (activeGeofenceProvider.equals("PathSense")) {
-                // TODO
+                geofenceProvider = new PathSenseGeofenceProvider(context);
             }
 
             if (geofenceProvider != null) {
