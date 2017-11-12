@@ -16,7 +16,7 @@ public class PathSenseGeofenceProvider implements GeofenceProvider {
 
     private final Context context;
 
-    PathsenseLocationProviderApi api;
+    private final PathsenseLocationProviderApi api;
 
     public PathSenseGeofenceProvider(Context appContext) {
         this.context = appContext;
@@ -54,6 +54,7 @@ public class PathSenseGeofenceProvider implements GeofenceProvider {
     public void stop() {
         ToastLog.logShort(context, TAG, "Stopping PathSense geofencing...");
         api.removeGeofences();
+        api.destroy();
         TimedGPSFixReceiver.stop(context);
     }
 
