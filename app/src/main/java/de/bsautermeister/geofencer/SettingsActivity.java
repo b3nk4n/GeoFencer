@@ -38,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
     private EditText latitudeText;
     private EditText longitudeText;
     private CheckBox pollingCheckBox;
+    private Spinner pollingSpinner;
     private CheckBox initialTriggerCheckBox;
 
     private GeoLocationProvider geoLocationProvider;
@@ -74,6 +75,14 @@ public class SettingsActivity extends AppCompatActivity {
 
         pollingCheckBox = (CheckBox)findViewById(R.id.pollingCheckBox);
         pollingCheckBox.setChecked(settings.isGpsPollingEnabled());
+
+        pollingSpinner = (Spinner) findViewById(R.id.pollingSpinner);
+        ArrayAdapter<CharSequence> pollingAdapter = ArrayAdapter.createFromResource(this,
+                R.array.polling_array, android.R.layout.simple_spinner_item);
+        pollingAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pollingSpinner.setAdapter(pollingAdapter);
+        pollingSpinner.setSelection(
+                settings.getGpsPollingImplementation().equals("LocationManager") ? 0 : 1);
 
         initialTriggerCheckBox = (CheckBox)findViewById(R.id.initialTriggerCheckBox);
         initialTriggerCheckBox.setChecked(settings.isInitialTriggerEnabled());
@@ -212,6 +221,7 @@ public class SettingsActivity extends AppCompatActivity {
         settings.setExitRadius(progressToRadius(radiusExitSeekBar.getProgress()));
         settings.setHomeLocation(location.getLatitude(), location.getLongitude());
         settings.setGpsPollingEnabled(pollingCheckBox.isChecked());
+        settings.setGpsPollingImplementation(pollingSpinner.getSelectedItem().toString());
         settings.setInitialTriggerEnabled(initialTriggerCheckBox.isChecked());
         finish();
     }

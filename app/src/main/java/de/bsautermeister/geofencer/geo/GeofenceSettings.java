@@ -10,6 +10,7 @@ public class GeofenceSettings {
     private static final String DEFAULT_PROVIDER = "Play";
     private static final float DEFAULT_RADIUS = 100.0f;
     private static final boolean DEFAULT_POLLING_ENABLED = false;
+    private static final String DEFAULT_POLLING_IMPL = "LocationManager";
     private static final boolean DEFAULT_INIT_TRIGGER_ENABLED = false;
 
     private SharedPreferences prefs;
@@ -76,6 +77,14 @@ public class GeofenceSettings {
 
     public void setGpsPollingEnabled(boolean polling) {
         prefs.edit().putBoolean("gps-polling", polling).apply();
+    }
+
+    public String getGpsPollingImplementation() {
+        return prefs.getString("polling-impl", DEFAULT_POLLING_IMPL);
+    }
+
+    public void setGpsPollingImplementation(String impl) {
+        prefs.edit().putString("polling-impl", impl).apply();
     }
 
     public boolean isInitialTriggerEnabled() {

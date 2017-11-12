@@ -177,12 +177,21 @@
         app:layout_constraintTop_toBottomOf="@+id/pollingLabel"
         android:text="@string/setting_polling_enabled" />
 
+    <Spinner
+        android:id="@+id/pollingSpinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pollingCheckBox" />
+
     <CheckBox
         android:id="@+id/initialTriggerCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pollingCheckBox"
+        app:layout_constraintTop_toBottomOf="@+id/pollingSpinner"
         android:text="@string/setting_init_trigger_enabled" />
 
     <android.support.design.widget.FloatingActionButton

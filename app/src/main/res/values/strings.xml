@@ -22,4 +22,9 @@
         <item>Play</item>
         <item>PathSense</item>
     </string-array>
+
+    <string-array name="polling_array">
+        <item>LocationManager</item>
+        <item>FusedLocationApi</item>
+    </string-array>
 </resources>
