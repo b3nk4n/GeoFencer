@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -42,11 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         settings = new GeofenceSettings(getApplicationContext());
 
-        if (settings.getGeofenceProvider().equals("Play")) {
-            provider = new PlayGeofenceProvider(getApplicationContext());
-        } else if (settings.getGeofenceProvider().equals("PathSense")){
-            provider = new PathSenseGeofenceProvider(getApplicationContext());
-        }
+
 
         startButton = (FloatingActionButton)findViewById(R.id.startButton);
         stopButton = (FloatingActionButton)findViewById(R.id.stopButton);
@@ -54,13 +51,24 @@ public class MainActivity extends AppCompatActivity {
 
         runningProgress = (ProgressBar)findViewById(R.id.runningProgress);
         runningProvider = (TextView)findViewById(R.id.runningProvider);
-        updateRunningProgress();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         GeoLocationUtil.askForLocationPermission(this, LOCATION_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (settings.getGeofenceProvider().equals("Play")) {
+            provider = new PlayGeofenceProvider(getApplicationContext());
+        } else if (settings.getGeofenceProvider().equals("PathSense")){
+            provider = new PathSenseGeofenceProvider(getApplicationContext());
+        }
+        updateRunningProgress();
     }
 
     @Override

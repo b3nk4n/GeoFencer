@@ -124,11 +124,9 @@ public class PlayGeofenceProvider implements GeofenceProvider {
             ).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
-                    String msg = String.format(Locale.getDefault(),
-                            "Geofence: (%.3f, %.3f)",
-                            homeLocation.getLatitude(),
-                            homeLocation.getLongitude());
-                    ToastLog.logShort(context, TAG, msg);
+                    if (status.getStatusMessage() != null) {
+                        ToastLog.warnShort(context, TAG, status.getStatusMessage());
+                    }
                 }
             });
         }
