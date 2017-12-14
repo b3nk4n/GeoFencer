@@ -45,7 +45,18 @@
 
         <receiver
             android:name=".geo.PlayTransitionReceiver"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter android:priority="999">
+                <!-- Using an intent filter with max. priority is important to guarantee that the
+                     the broadcast receiver is called immediately. We could discover that this was
+                     not necessary in less complex apps (like this GeoFencer test app), where the
+                     reiceiver was called immediately. However, in other more complex app (with more
+                     broadcast receivers and background services running), we could see delays up
+                     to 3 minutes until the receiver was actually triggered, often even requiring
+                     the user to unlock the phone first! -->
+                <action android:name="de.bsautermeister.geofencer.geo.ACTION_RECEIVE_GEOFENCE" />
+            </intent-filter>
+        </receiver>
         <receiver
             android:name=".geo.GeoRestartReceiver"
             android:enabled="true"

@@ -20,7 +20,6 @@ import com.google.android.gms.location.LocationServices;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import de.bsautermeister.geofencer.utils.ToastLog;
 
@@ -213,7 +212,8 @@ public class PlayGeofenceProvider implements GeofenceProvider {
     private static PendingIntent getGeofencingPendingIntent(final Context context) {
         // We use FLAG_UPDATE_CURRENT so that we get the same pending intent back when
         // calling addGeofences() and removeGeofences()
-        Intent intent = new Intent(context.getApplicationContext(), PlayTransitionReceiver.class);
+        // Important: Use a intent with named action, that has assigned max. priority
+        Intent intent = new Intent("de.bsautermeister.geofencer.geo.ACTION_RECEIVE_GEOFENCE");
         return PendingIntent.getBroadcast(context.getApplicationContext(), 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
     }
